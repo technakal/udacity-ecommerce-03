@@ -1,9 +1,9 @@
-package com.udacity.course3.reviews;
+package com.udacity.course3.reviews.mysql;
 
-import com.udacity.course3.reviews.entity.Product;
-import com.udacity.course3.reviews.entity.Review;
-import com.udacity.course3.reviews.repository.ProductRepository;
-import com.udacity.course3.reviews.repository.ReviewRepository;
+import com.udacity.course3.reviews.mysql.entity.Product;
+import com.udacity.course3.reviews.mysql.entity.Review;
+import com.udacity.course3.reviews.mysql.repository.ProductRepository;
+import com.udacity.course3.reviews.mysql.repository.ReviewRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class ReviewTests {
+public class ReviewMySQLTests {
 
     @Autowired
     private DataSource dataSource;

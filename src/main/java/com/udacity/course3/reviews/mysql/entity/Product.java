@@ -1,4 +1,4 @@
-package com.udacity.course3.reviews.entity;
+package com.udacity.course3.reviews.mysql.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;

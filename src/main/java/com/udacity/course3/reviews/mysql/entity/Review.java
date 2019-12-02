@@ -1,10 +1,8 @@
-package com.udacity.course3.reviews.entity;
+package com.udacity.course3.reviews.mysql.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "reviews")

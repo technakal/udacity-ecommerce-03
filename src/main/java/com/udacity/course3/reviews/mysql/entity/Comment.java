@@ -1,4 +1,4 @@
-package com.udacity.course3.reviews.entity;
+package com.udacity.course3.reviews.mysql.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

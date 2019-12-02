@@ -1,17 +1,15 @@
-package com.udacity.course3.reviews.controller;
+package com.udacity.course3.reviews.mysql.controller;
 
-import com.udacity.course3.reviews.entity.Product;
-import com.udacity.course3.reviews.entity.Review;
-import com.udacity.course3.reviews.repository.ProductRepository;
-import com.udacity.course3.reviews.repository.ReviewRepository;
+import com.udacity.course3.reviews.mysql.entity.Product;
+import com.udacity.course3.reviews.mysql.entity.Review;
+import com.udacity.course3.reviews.mysql.repository.ProductRepository;
+import com.udacity.course3.reviews.mysql.repository.ReviewRepository;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 import java.util.Optional;
