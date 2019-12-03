@@ -1,7 +1,10 @@
 package com.udacity.course3.reviews.mysql.controller;
 
+import com.udacity.course3.reviews.mongo.entity.ReviewDocument;
+import com.udacity.course3.reviews.mongo.repository.MongoReviewRepository;
 import com.udacity.course3.reviews.mysql.entity.Product;
 import com.udacity.course3.reviews.mysql.entity.Review;
+import com.udacity.course3.reviews.mysql.repository.CommentRepository;
 import com.udacity.course3.reviews.mysql.repository.ProductRepository;
 import com.udacity.course3.reviews.mysql.repository.ReviewRepository;
 import io.swagger.annotations.ApiResponse;
@@ -27,6 +30,12 @@ import java.util.Optional;
 public class ReviewsController {
 
     @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private MongoReviewRepository mongoReviewRepository;
+
+    @Autowired
     private ReviewRepository reviewRepository;
 
     @Autowired
@@ -48,7 +57,9 @@ public class ReviewsController {
 
         if(optionalProduct.isPresent()) {
             review.setProduct(optionalProduct.get());
-            return new ResponseEntity(reviewRepository.save(review), HttpStatus.CREATED);
+            reviewRepository.save(review);
+            mongoReviewRepository.save(new ReviewDocument(review));
+            return new ResponseEntity(review, HttpStatus.CREATED);
         }
         return ResponseEntity.notFound().build();
     }
@@ -60,13 +71,21 @@ public class ReviewsController {
      * @return The list of reviews.
      */
     @GetMapping(value = "/products/{productId}")
-    public ResponseEntity<List<Review>> listReviewsForProduct(@PathVariable("productId") Integer productId) {
+    public ResponseEntity<List<ReviewDocument>> listReviewsForProduct(@PathVariable("productId") Integer productId) {
 
         Optional<Product> optionalProduct = productRepository.findById(productId);
 
         if(optionalProduct.isPresent()) {
-            return ResponseEntity.ok(reviewRepository.findAllByProduct(optionalProduct.get()));
+
+            // fixme: figure out why mongo DB is not returning the comment ID when a review is retrieved
+
+            List<ReviewDocument> reviews = mongoReviewRepository.findAllByProductId(productId);
+            for(ReviewDocument review : reviews) {
+                System.err.println(review.getComments());
+            }
+            return ResponseEntity.ok(mongoReviewRepository.findAllByProductId(productId));
         }
+
         return ResponseEntity.notFound().build();
 
     }

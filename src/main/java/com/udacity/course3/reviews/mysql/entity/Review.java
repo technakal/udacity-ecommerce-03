@@ -3,6 +3,8 @@ package com.udacity.course3.reviews.mysql.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "reviews")
@@ -37,12 +39,12 @@ public class Review {
     @JoinColumn(name = "product_id")
     private Product product;
 
-//    @OneToMany(
-//            cascade = CascadeType.ALL,
-//            fetch = FetchType.LAZY,
-//            mappedBy = "review"
-//    )
-//    private List<Comment> comments;
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "review"
+    )
+    private List<Comment> comments;
 
     // constructors
     public Review() {
@@ -102,28 +104,28 @@ public class Review {
         this.product = product;
     }
 
-//    public List<Comment> getComments() {
-//        return comments;
-//    }
-//
-//    public void setComments(List<Comment> comments) {
-//        this.comments = comments;
-//    }
-//
-//    // convenience methods
-//    public void addComment(Comment comment) {
-//        if (this.comments == null) {
-//            this.comments = new ArrayList<>();
-//        }
-//        this.comments.add(comment);
-//    }
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    // convenience methods
+    public void addComment(Comment comment) {
+        if (this.comments == null) {
+            this.comments = new ArrayList<>();
+        }
+        this.comments.add(comment);
+    }
 
     // other methods
     @Override
     public String toString() {
         return "Review{" +
                 "id=" + id +
-                ", username='" + userName + '\'' +
+                ", userName='" + userName + '\'' +
                 ", reviewText='" + reviewText + '\'' +
                 ", rating='" + rating + "\'" +
                 '}';

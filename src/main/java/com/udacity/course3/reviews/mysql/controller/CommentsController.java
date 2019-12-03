@@ -45,6 +45,9 @@ public class CommentsController {
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
 
         if(optionalReview.isPresent()) {
+
+            // todo: when saving a comment, also update the review in MongoDB?
+
             comment.setReview(optionalReview.get());
             return new ResponseEntity(commentRepository.save(comment), HttpStatus.CREATED);
         }
@@ -61,6 +64,9 @@ public class CommentsController {
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
 
         if(optionalReview.isPresent()) {
+
+            // todo: should I return these from mongoDB instead of MySQL?
+
             return ResponseEntity.ok(commentRepository.findAllByReview(optionalReview.get()));
         }
         return ResponseEntity.notFound().build();
