@@ -127,7 +127,7 @@ public class Review {
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", reviewText='" + reviewText + '\'' +
-                ", rating='" + rating + "\'" +
+                ", rating='" + rating + "'" +
                 '}';
     }
 }

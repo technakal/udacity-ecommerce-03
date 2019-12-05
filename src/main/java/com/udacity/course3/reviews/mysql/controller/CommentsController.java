@@ -1,5 +1,6 @@
 package com.udacity.course3.reviews.mysql.controller;
 
+import com.udacity.course3.reviews.mongo.repository.MongoReviewRepository;
 import com.udacity.course3.reviews.mysql.entity.Comment;
 import com.udacity.course3.reviews.mysql.entity.Review;
 import com.udacity.course3.reviews.mysql.repository.CommentRepository;
@@ -32,6 +33,9 @@ public class CommentsController {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private MongoReviewRepository mongoReviewRepository;
+
     /**
      * Creates a comment for a review.
      * @param reviewId The id of the review.
@@ -46,10 +50,9 @@ public class CommentsController {
 
         if(optionalReview.isPresent()) {
 
-            // todo: when saving a comment, also update the review in MongoDB?
-
             comment.setReview(optionalReview.get());
             return new ResponseEntity(commentRepository.save(comment), HttpStatus.CREATED);
+
         }
         return ResponseEntity.notFound().build();
     }
@@ -64,9 +67,6 @@ public class CommentsController {
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
 
         if(optionalReview.isPresent()) {
-
-            // todo: should I return these from mongoDB instead of MySQL?
-
             return ResponseEntity.ok(commentRepository.findAllByReview(optionalReview.get()));
         }
         return ResponseEntity.notFound().build();

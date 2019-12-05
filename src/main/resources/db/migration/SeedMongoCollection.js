@@ -1,6 +1,12 @@
+// connect to mongo
+print('connecting to mongo "ecommerce" database...');
 var conn = new Mongo();
+
+// retrieve the ecommerce database so we can work with it.
 db = conn.getDB('ecommerce');
 
+// create our seeding docs
+print('creating documents...');
 var doc1 = {
   userName: 'john c.',
   rating: 4,
@@ -79,4 +85,9 @@ var doc7 = {
   productId: 4,
   comments: [],
 };
+
+// insert the docs into the collection
+print('saving documents...');
 db.reviews.insert([doc1, doc2, doc3, doc4, doc5, doc6, doc7]);
+
+print('reviews collection seeded...');

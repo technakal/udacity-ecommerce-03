@@ -76,13 +76,6 @@ public class ReviewsController {
         Optional<Product> optionalProduct = productRepository.findById(productId);
 
         if(optionalProduct.isPresent()) {
-
-            // fixme: figure out why mongo DB is not returning the comment ID when a review is retrieved
-
-            List<ReviewDocument> reviews = mongoReviewRepository.findAllByProductId(productId);
-            for(ReviewDocument review : reviews) {
-                System.err.println(review.getComments());
-            }
             return ResponseEntity.ok(mongoReviewRepository.findAllByProductId(productId));
         }
 
