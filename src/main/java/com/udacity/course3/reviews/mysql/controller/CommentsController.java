@@ -1,19 +1,17 @@
-package com.udacity.course3.reviews.controller;
+package com.udacity.course3.reviews.mysql.controller;
 
-import com.udacity.course3.reviews.entity.Comment;
-import com.udacity.course3.reviews.entity.Review;
-import com.udacity.course3.reviews.repository.CommentRepository;
-import com.udacity.course3.reviews.repository.ProductRepository;
-import com.udacity.course3.reviews.repository.ReviewRepository;
+import com.udacity.course3.reviews.mongo.repository.MongoReviewRepository;
+import com.udacity.course3.reviews.mysql.entity.Comment;
+import com.udacity.course3.reviews.mysql.entity.Review;
+import com.udacity.course3.reviews.mysql.repository.CommentRepository;
+import com.udacity.course3.reviews.mysql.repository.ReviewRepository;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +33,9 @@ public class CommentsController {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private MongoReviewRepository mongoReviewRepository;
+
     /**
      * Creates a comment for a review.
      * @param reviewId The id of the review.
@@ -48,8 +49,10 @@ public class CommentsController {
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
 
         if(optionalReview.isPresent()) {
+
             comment.setReview(optionalReview.get());
             return new ResponseEntity(commentRepository.save(comment), HttpStatus.CREATED);
+
         }
         return ResponseEntity.notFound().build();
     }

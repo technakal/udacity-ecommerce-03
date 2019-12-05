@@ -1,6 +1,6 @@
-package com.udacity.course3.reviews.repository;
+package com.udacity.course3.reviews.mysql.repository;
 
-import com.udacity.course3.reviews.entity.Product;
+import com.udacity.course3.reviews.mysql.entity.Product;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

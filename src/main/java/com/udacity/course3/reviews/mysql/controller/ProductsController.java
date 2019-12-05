@@ -1,18 +1,15 @@
-package com.udacity.course3.reviews.controller;
+package com.udacity.course3.reviews.mysql.controller;
 
-import com.udacity.course3.reviews.entity.Product;
-import com.udacity.course3.reviews.repository.ProductRepository;
-import io.swagger.annotations.Api;
+import com.udacity.course3.reviews.mysql.entity.Product;
+import com.udacity.course3.reviews.mysql.repository.ProductRepository;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Spring REST controller for working with product entity.

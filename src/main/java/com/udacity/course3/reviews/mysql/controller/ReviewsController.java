@@ -1,17 +1,18 @@
-package com.udacity.course3.reviews.controller;
+package com.udacity.course3.reviews.mysql.controller;
 
-import com.udacity.course3.reviews.entity.Product;
-import com.udacity.course3.reviews.entity.Review;
-import com.udacity.course3.reviews.repository.ProductRepository;
-import com.udacity.course3.reviews.repository.ReviewRepository;
+import com.udacity.course3.reviews.mongo.entity.ReviewDocument;
+import com.udacity.course3.reviews.mongo.repository.MongoReviewRepository;
+import com.udacity.course3.reviews.mysql.entity.Product;
+import com.udacity.course3.reviews.mysql.entity.Review;
+import com.udacity.course3.reviews.mysql.repository.CommentRepository;
+import com.udacity.course3.reviews.mysql.repository.ProductRepository;
+import com.udacity.course3.reviews.mysql.repository.ReviewRepository;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,12 @@ import java.util.Optional;
 })
 @RequestMapping("/reviews")
 public class ReviewsController {
+
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private MongoReviewRepository mongoReviewRepository;
 
     @Autowired
     private ReviewRepository reviewRepository;
@@ -50,7 +57,9 @@ public class ReviewsController {
 
         if(optionalProduct.isPresent()) {
             review.setProduct(optionalProduct.get());
-            return new ResponseEntity(reviewRepository.save(review), HttpStatus.CREATED);
+            reviewRepository.save(review);
+            mongoReviewRepository.save(new ReviewDocument(review));
+            return new ResponseEntity(review, HttpStatus.CREATED);
         }
         return ResponseEntity.notFound().build();
     }
@@ -62,13 +71,14 @@ public class ReviewsController {
      * @return The list of reviews.
      */
     @GetMapping(value = "/products/{productId}")
-    public ResponseEntity<List<Review>> listReviewsForProduct(@PathVariable("productId") Integer productId) {
+    public ResponseEntity<List<ReviewDocument>> listReviewsForProduct(@PathVariable("productId") Integer productId) {
 
         Optional<Product> optionalProduct = productRepository.findById(productId);
 
         if(optionalProduct.isPresent()) {
-            return ResponseEntity.ok(reviewRepository.findAllByProduct(optionalProduct.get()));
+            return ResponseEntity.ok(mongoReviewRepository.findAllByProductId(productId));
         }
+
         return ResponseEntity.notFound().build();
 
     }
